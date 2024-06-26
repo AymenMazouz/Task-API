@@ -32,14 +32,13 @@ public function register(RegisterUser $request)
         return response()->json([
             'status' => 200,
             'msg' => 'User created successfully',
-            'token' => $token, // Include the generated token
+            'token' => $token, 
             'user' => $user,
             'date_added' => $user->created_at->format('Y-m-d H:i:s'),
             'id' => $user->id
         ]);
 
     } catch (Exception $e) {
-        // Handle any exceptions that occur during user creation
         return response()->json(['error' => 'User creation failed'], 500);
     }
 }
