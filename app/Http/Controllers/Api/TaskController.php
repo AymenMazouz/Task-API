@@ -163,27 +163,30 @@ if ($task->user_id == auth()->user()->id || auth()->user()->role == 'admin') {
 //=============================================================================================================================================
 public function getDeletedTasks()
 {
-    // Récupérer toutes les tâches supprimées (soft deleted)
-    $deletedTasks = Task::onlyTrashed()->get();
-   if (auth()->user()->role == 'admin') {
+    // Check if the authenticated user is an admin
+    if (auth()->user()->role == 'admin') {
+        // Retrieve all soft deleted tasks
+        $deletedTasks = Task::onlyTrashed()->get();
 
-    if ($deletedTasks->isEmpty()) {
+        if ($deletedTasks->isEmpty()) {
+            return response()->json([
+                'status' => 200,
+                'msg' => 'Aucune tâche supprimée trouvée'
+            ], 200);
+        }
+
         return response()->json([
+            'deleted_tasks' => $deletedTasks,
             'status' => 200,
-            'msg' => 'Aucune tâche supprimée trouvée'
-        ], 200);
-    }
-
-    return response()->json([
-        'deleted_tasks' => $deletedTasks,
-        'status' => 200,
-        'msg' => 'Liste des tâches supprimées récupérée avec succès'
-    ]);}
-    else{
+            'msg' => 'Liste des tâches supprimées récupérée avec succès'
+        ]);
+    } else {
+        // Return forbidden status for non-admin users
         return response()->json([
-        'status' => 403,
-        'msg' => 'Vous n\'avez pas les permissions nécessaires',
-    ]); 
+            'status' => 403,
+            'msg' => 'Vous n\'avez pas les permissions nécessaires',
+        ], 403);
     }
 }
+
 }

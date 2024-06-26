@@ -16,33 +16,33 @@ class UserController extends Controller
 {
 //========================================================================================
 
-     public function register(RegisterUser $request)
-    {
+public function register(RegisterUser $request)
+{
+    try {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role ?? 'user'; 
+         $user->password = $request->password;
 
-    try{
-    $user = new User();
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->role = $request->role;
-    $user->password = $request->password;
+        $user->save();
 
-    $user->save();
+      $token = $user->createToken('AuthToken')->accessToken;
 
-          return response()->json([
-        'user' => $user,
-        'status' => 200,
-        'msg' => 'creation avec succès',
-        'date_d_ajout' => $user->created_at->format('Y-m-d H:i:s'),
-        'id' => $user->id 
+        return response()->json([
+            'status' => 200,
+            'msg' => 'User created successfully',
+            'token' => $token, // Include the generated token
+            'user' => $user,
+            'date_added' => $user->created_at->format('Y-m-d H:i:s'),
+            'id' => $user->id
+        ]);
 
-    ]);
-
-
-        }catch(Exception $e){
-            return response()->json($e);
-        }
-    
+    } catch (Exception $e) {
+        // Handle any exceptions that occur during user creation
+        return response()->json(['error' => 'User creation failed'], 500);
     }
+}
 
 //========================================================================================
 
