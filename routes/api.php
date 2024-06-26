@@ -16,26 +16,21 @@ return 'test';
 //============================================ Tasks Endpoints =========================================================
 
 // GET /tasks :
-Route::get('/tasks', [TaskController::class, 'index']);
-
 
 // GET /tasks/{id}:
-Route::get('/tasks/{id}', [TaskController::class, 'show']);
-
 
 // POST /tasks/store:
 
 // PUT /tasks/update:
-Route::Put('/tasks/update/{id}', [TaskController::class, 'update']);
 
 // Soft delete task
-Route::delete('/tasks/delete/{id}', [TaskController::class, 'destroy']);
-
 
 // Récupérer les tâches supprimées
-Route::get('/task/deleted', [TaskController::class, 'getDeletedTasks']);
 
 //============================================ Auth Endpoints =========================================================
+
+
+
 // creer un compte
 Route::post('/register',[UserController::class,'register']);
 
@@ -45,10 +40,6 @@ Route::post('/login',[UserController::class,'login']);
 // LOGout
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-
-
-
 
 
 //============================================ Authorizations =========================================================
@@ -62,7 +53,21 @@ Route::middleware('auth:sanctum')->group(function(){
     // POST /tasks/store:
     Route::post('/tasks/create', [TaskController::class, 'store']);
 
-             
+    // PUT /tasks/update:
+    Route::Put('/tasks/update/{id}', [TaskController::class, 'update']);
+
+    // Récupérer les tâches supprimées
+    Route::get('/task/deleted', [TaskController::class, 'getDeletedTasks']);   
+    
+    // Soft delete task
+    Route::delete('/tasks/delete/{id}', [TaskController::class, 'destroy']);
+
+    
+    // GET /tasks/{id}:
+    Route::get('/tasks/{id}', [TaskController::class, 'show']);
+
+    // GET /tasks :
+    Route::get('/tasks', [TaskController::class, 'index']);
 });
 
 

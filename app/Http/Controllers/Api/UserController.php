@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoguserRequest;
-use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\RegisterUser;
 
 
 class UserController extends Controller
