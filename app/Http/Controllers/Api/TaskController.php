@@ -134,14 +134,16 @@ public function destroy($id)
 {
     // trouver la tache by ID
     $task = Task::find($id);
-if ($task->user_id == auth()->user()->id || auth()->user()->role == 'admin') {
-     // Check if task exists
-    if (!$task) {
+         // Check if task exists
+
+        if (!$task) {
         return response()->json([
             'status' => 404,
             'msg' => 'Tâche non trouvée - non existante'
         ], 404);
     }
+if ($task->user_id == auth()->user()->id || auth()->user()->role == 'admin') {
+
 
     // Soft delete \
     $task->delete();
