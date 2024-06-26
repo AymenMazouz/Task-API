@@ -41,6 +41,7 @@ class AuthenticationTest extends TestCase
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => 'password',
+             'role' => 'user', // or 'admin'
         ];
 
         $response = $this->postJson('/api/register', $userData);
